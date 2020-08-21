@@ -15,8 +15,17 @@ let Game = (function(){
     let leftDiceLabel: UIObjects.Label;
     let rightDiceLabel: UIObjects.Label;
 
+    let diceBackground: Core.GameObject;
     let leftDice: Core.GameObject;
     let rightDice: Core.GameObject;
+
+    let diceOne = 0;
+    let diceTwo = 0;
+    let diceThree = 0;
+    let diceFour = 0;
+    let diceFive = 0;
+    let diceSix = 0;
+
 
     let assetManifest= 
     [
@@ -26,7 +35,7 @@ let Game = (function(){
         {id:"4", src:"./Assets/images/4.png"},
         {id:"5", src:"./Assets/images/5.png"},
         {id:"6", src:"./Assets/images/6.png"},
-        {id:"backButton", src:"./Assets/images/startButton.png"},
+        {id:"backButton", src:"./Assets/images/backButton.png"},
         {id:"background", src:"./Assets/images/background.png"},
         {id:"blank", src:"./Assets/images/blank.png"},
         {id:"button", src:"./Assets/images/button.png"},
@@ -80,29 +89,35 @@ let Game = (function(){
      */
 
     function rollDice():string[] {
-        var diceRoll =["blank"]
-        var outCome = [0];
+        var diceRoll =[" "," "]
+        var outCome = [0,0];
     
             for (var roll = 0; roll < 2; roll++) {
-                outCome[roll] = Util.Mathf.RandomRange(0,6);
+                outCome[roll] = Math.floor((Math.random() * 6) + 1);
                 switch (outCome[roll]) {
-                    case (outCome[roll],1):
-                        diceRoll[roll] = "1";
+                    case (outCome[roll],1,1):
+                        diceRoll[roll] = "1",
+                        diceOne++;
                         break;
-                    case (outCome[roll],2):
+                    case (outCome[roll],2,2):
                         diceRoll[roll] = "2";
+                        diceTwo++;
                         break;
-                    case (outCome[roll],3):
+                    case (outCome[roll],3,3):
                         diceRoll[roll] = "3";
+                        diceThree++;
                         break;
-                    case (outCome[roll],4):
+                    case (outCome[roll],4,4):
                         diceRoll[roll] = "4";
+                        diceFour++;
                         break;
-                    case (outCome[roll],5):
+                    case (outCome[roll],5,5):
                         diceRoll[roll] = "5";
+                        diceFive++
                         break;
-                    case (outCome[roll],6):
+                    case (outCome[roll],6,6):
                         diceRoll[roll] = "6";
+                        diceSix++;
                         break;
                 }
             }
@@ -111,31 +126,36 @@ let Game = (function(){
 
     function buildInterface():void
     {
+        diceBackground = new Core.GameObject("background", Config.Game.CENTER_X, Config.Game.CENTER_Y, true);
+        stage.addChild(diceBackground);
+
+
+
         //buttons
-        backButton = new UIObjects.Button("backButton", Config.Game.CENTER_X, Config.Game.CENTER_Y - 100, true);
+        backButton = new UIObjects.Button("backButton", Config.Game.CENTER_X, Config.Game.CENTER_Y +200, true);
         stage.addChild(backButton);
-        rollButton = new UIObjects.Button("rollButton", Config.Game.CENTER_X, Config.Game.CENTER_Y + 150, true);
+        rollButton = new UIObjects.Button("rollButton", Config.Game.CENTER_X, Config.Game.CENTER_Y +120, true);
         stage.addChild(rollButton);
-        nextButton = new UIObjects.Button("nextButton", Config.Game.CENTER_X, Config.Game.CENTER_Y - 100, true);
+        nextButton = new UIObjects.Button("nextButton", Config.Game.CENTER_X +230, Config.Game.CENTER_Y +200, true);
         stage.addChild(nextButton);
-        resetButton = new UIObjects.Button("resetButton", Config.Game.CENTER_X, Config.Game.CENTER_Y - 100, true);
+        resetButton = new UIObjects.Button("resetButton", Config.Game.CENTER_X -230, Config.Game.CENTER_Y -200, true);
         stage.addChild(resetButton);
-        startButton = new UIObjects.Button("startButton", Config.Game.CENTER_X, Config.Game.CENTER_Y - 100, true);
+        startButton = new UIObjects.Button("startButton", Config.Game.CENTER_X +230, Config.Game.CENTER_Y -200, true);
         stage.addChild(startButton);
-        startOverButton = new UIObjects.Button("startOverButton", Config.Game.CENTER_X, Config.Game.CENTER_Y - 100, true);
+        startOverButton = new UIObjects.Button("startOverButton", Config.Game.CENTER_X -230, Config.Game.CENTER_Y +200, true);
         stage.addChild(startOverButton);
 
         //labels
 
-        leftDiceLabel = new UIObjects.Label("leftDiceLabel", "16px", "Consolas", "#000000", Config.Game.CENTER_X - 150, Config.Game.CENTER_Y + 60, true);
+        leftDiceLabel = new UIObjects.Label("leftDiceLabel", "16px", "Consolas", "#999999", Config.Game.CENTER_X -150, Config.Game.CENTER_Y + 60, true);
         stage.addChild(leftDiceLabel);
-        rightDiceLabel = new UIObjects.Label("rightDiceLabel", "16px", "Consolas", "#000000", Config.Game.CENTER_X + 150, Config.Game.CENTER_Y + 60, true);
+        rightDiceLabel = new UIObjects.Label("rightDiceLabel", "16px", "Consolas", "#999999", Config.Game.CENTER_X +150, Config.Game.CENTER_Y + 60, true);
         stage.addChild(rightDiceLabel);
 
         //objects
-        leftDice = new Core.GameObject("1", Config.Game.CENTER_X -150, Config.Game.CENTER_Y -50, true)
+        leftDice = new Core.GameObject("blank", Config.Game.CENTER_X -150, Config.Game.CENTER_Y -50, true)
         stage.addChild(leftDice);
-        rightDice = new Core.GameObject("2", Config.Game.CENTER_X +150, Config.Game.CENTER_Y -50, true)
+        rightDice = new Core.GameObject("blank", Config.Game.CENTER_X +150, Config.Game.CENTER_Y -50, true)
         stage.addChild(rightDice);
 
     }
@@ -147,11 +167,14 @@ let Game = (function(){
             let dice = rollDice();
 
             leftDice.image = assets.getResult(dice[0]) as HTMLImageElement;
+            leftDiceLabel.setText(dice[0]);
             rightDice.image = assets.getResult(dice[1]) as HTMLImageElement;
+            rightDiceLabel.setText(dice[1]);
         });
 
         backButton.on("click", ()=>{
             console.log("backButton Button Clicked");
+            
         });
 
         nextButton.on("click", ()=>{
