@@ -5,9 +5,6 @@ let Game = (function(){
     let stage:createjs.Stage;
     let assets: createjs.LoadQueue;
 
-   /* let exampleLabel: UIObjects.Label;
-    let exampleButton: UIObjects.Button; */
-
     let backButton: UIObjects.Button;
     let rollButton: UIObjects.Button;
     let nextButton: UIObjects.Button;
@@ -18,11 +15,10 @@ let Game = (function(){
     let leftDiceLabel: UIObjects.Label;
     let rightDiceLabel: UIObjects.Label;
 
-    let leftDice = 0;
-    let rightDice = 0;
+    let leftDice: Core.GameObject;
+    let rightDice: Core.GameObject;
 
-
-    let assetManifest = 
+    let assetManifest= 
     [
         {id:"1", src:"./Assets/images/1.png"},
         {id:"2", src:"./Assets/images/2.png"},
@@ -64,7 +60,7 @@ let Game = (function(){
         stage.enableMouseOver(20);
         
         Config.Game.ASSETS = assets; 
-        Config.Globals.AssetManifest = assets; // make a reference to the assets in the global config
+        Config.Globals.AssetManifest = assets;// make a reference to the assets in the global config
 
         Main();
     }
@@ -83,31 +79,42 @@ let Game = (function(){
      *
      */
 
-    function rollDice() {
-        var leftDiceOutcome = Math.floor(Math.random() * 6) + 1;
-        document.querySelector("leftDice").setAttribute("src", 
-        "./Assets/images/" + leftDiceOutcome + ".png"); 
-
-        var rightDiceOutcome = Math.floor(Math.random() * 6) + 1;
-        document.querySelector("rightDice").setAttribute("src", 
-        "./Assets/images/" + rightDiceOutcome + ".png"); 
+    function rollDice():string[] {
+        var diceRoll =["blank"]
+        var outCome = [0];
+    
+            for (var roll = 0; roll < 2; roll++) {
+                outCome[roll] = Util.Mathf.RandomRange(0,6);
+                switch (outCome[roll]) {
+                    case (outCome[roll],1):
+                        diceRoll[roll] = "1";
+                        break;
+                    case (outCome[roll],2):
+                        diceRoll[roll] = "2";
+                        break;
+                    case (outCome[roll],3):
+                        diceRoll[roll] = "3";
+                        break;
+                    case (outCome[roll],4):
+                        diceRoll[roll] = "4";
+                        break;
+                    case (outCome[roll],5):
+                        diceRoll[roll] = "5";
+                        break;
+                    case (outCome[roll],6):
+                        diceRoll[roll] = "6";
+                        break;
+                }
+            }
+            return diceRoll;
         }
 
     function buildInterface():void
     {
-        /*
-        exampleLabel = new UIObjects.Label("An Example Label", "40px", "Consolas", "#000000", Config.Game.CENTER_X, Config.Game.CENTER_Y, true);
-        stage.addChild(exampleLabel);
-
-        exampleButton = new UIObjects.Button("button", Config.Game.CENTER_X, Config.Game.CENTER_Y + 100, true);
-        stage.addChild(exampleButton);
-        */
-
         //buttons
-
         backButton = new UIObjects.Button("backButton", Config.Game.CENTER_X, Config.Game.CENTER_Y - 100, true);
         stage.addChild(backButton);
-        rollButton = new UIObjects.Button("rollButton", Config.Game.CENTER_X, Config.Game.CENTER_Y + 100, true);
+        rollButton = new UIObjects.Button("rollButton", Config.Game.CENTER_X, Config.Game.CENTER_Y + 150, true);
         stage.addChild(rollButton);
         nextButton = new UIObjects.Button("nextButton", Config.Game.CENTER_X, Config.Game.CENTER_Y - 100, true);
         stage.addChild(nextButton);
@@ -122,16 +129,13 @@ let Game = (function(){
 
         leftDiceLabel = new UIObjects.Label("leftDiceLabel", "16px", "Consolas", "#000000", Config.Game.CENTER_X - 150, Config.Game.CENTER_Y + 60, true);
         stage.addChild(leftDiceLabel);
-
         rightDiceLabel = new UIObjects.Label("rightDiceLabel", "16px", "Consolas", "#000000", Config.Game.CENTER_X + 150, Config.Game.CENTER_Y + 60, true);
         stage.addChild(rightDiceLabel);
 
-        //reelobjects
-
-        leftDice = new Core.GameObject("leftDice", Config.Game.CENTER_X - 150, Config.Game.CENTER_Y - 50, true);
+        //objects
+        leftDice = new Core.GameObject("1", Config.Game.CENTER_X -150, Config.Game.CENTER_Y -50, true)
         stage.addChild(leftDice);
-
-        rightDice = new Core.GameObject("rightDice", Config.Game.CENTER_X + 150, Config.Game.CENTER_Y - 50, true);
+        rightDice = new Core.GameObject("2", Config.Game.CENTER_X +150, Config.Game.CENTER_Y -50, true)
         stage.addChild(rightDice);
 
     }
@@ -139,12 +143,33 @@ let Game = (function(){
     function interfaceLogic():void
     {
         rollButton.on("click", ()=>{
-            console.log("roll button clicked");
-        
-            let dice = rollDice;
 
-            leftDice.image = assets.getResult(dice[0])
-            rightDice.image = assets.getResult(dice[1])
+            let dice = rollDice();
+
+            leftDice.image = assets.getResult(dice[0]) as HTMLImageElement;
+            rightDice.image = assets.getResult(dice[1]) as HTMLImageElement;
+        });
+
+        backButton.on("click", ()=>{
+            console.log("backButton Button Clicked");
+        });
+
+        nextButton.on("click", ()=>{
+            console.log("nextButton Button Clicked");
+        });
+
+        resetButton.on("click", ()=>{
+            console.log("resetButton Button Clicked");
+        });
+
+        startButton.on("click", ()=>{
+            console.log("startButton Button Clicked");
+        });
+
+        startOverButton.on("click", ()=>{
+            console.log("startOverButton Button Clicked");
+        });
+    }
 
     function Main():void
     {
