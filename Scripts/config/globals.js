@@ -1,4 +1,5 @@
-  var Config;
+"use strict";
+var Config;
 (function (Config) {
     class Globals {
     }

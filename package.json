@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "COMP125 - Final Test Template Project",
   "main": "game.js",
-  "author": "Tom Tsiliopoulos",
+  "author": "Aileen Nicole Alapan",
   "license": "MIT",
   "dependencies": {
     "createjs": "^1.0.1",
@@ -17,5 +17,6 @@
     "@types/preloadjs": "^0.6.32",
     "@types/soundjs": "^0.6.27",
     "@types/tweenjs": "^1.0.0"
-  }
+  },
+  "repository": "https://github.com/aalapan/COMP125-FinalTest.git"
 }
