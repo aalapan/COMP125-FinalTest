@@ -3,11 +3,27 @@ let Game = (function(){
     // variable declarations
     let canvas:HTMLCanvasElement = document.getElementsByTagName('canvas')[0];
     let stage:createjs.Stage;
-    
+
     let assets: createjs.LoadQueue;
 
     let exampleLabel: UIObjects.Label;
     let exampleButton: UIObjects.Button;    
+
+    let backButton: UIObjects.Button;
+    let rollButton: UIObjects.Button;
+    let nextButton: UIObjects.Button;
+    let resetButton: UIObjects.Button;
+    let startButton : UIObjects.Button;
+    let startOverButton : UIObjects.Button;
+    
+    //symbol tallies
+
+    let 1 = 1;
+    let 2 = 2;
+    let 3 = 3;
+    let 4 = 4;
+    let 5 = 5;
+    let 6 = 6;
 
     let assetManifest = 
     [
@@ -45,12 +61,14 @@ let Game = (function(){
     function Start():void
     {
         console.log(`%c Start Function`, "color: grey; font-size: 14px; font-weight: bold;");
+        let canvas = document.getElementById("canvas") as HTMLCanvasElement;
         stage = new createjs.Stage(canvas);
         createjs.Ticker.framerate = Config.Game.FPS;
         createjs.Ticker.on('tick', Update);
         stage.enableMouseOver(20);
         
-        Config.Game.ASSETS = assets; // make a reference to the assets in the global config
+        Config.Game.ASSETS = assets; 
+        Config.Globals.AssetManifest = assets; // make a reference to the assets in the global config
 
         Main();
     }
@@ -68,19 +86,55 @@ let Game = (function(){
      * This is the main function of the Game (where all the fun happens)
      *
      */
-    function Main():void
-    {
-        console.log(`%c Main Function`, "color: grey; font-size: 14px; font-weight: bold;");
 
+    function buildInterface():void
+    {
+      
+        /*
         exampleLabel = new UIObjects.Label("An Example Label", "40px", "Consolas", "#000000", Config.Game.CENTER_X, Config.Game.CENTER_Y, true);
         stage.addChild(exampleLabel);
 
         exampleButton = new UIObjects.Button("button", Config.Game.CENTER_X, Config.Game.CENTER_Y + 100, true);
         stage.addChild(exampleButton);
+        */
 
-        exampleButton.on("click", ()=>{
-            console.log("example button clicked");
+        //buttons
+
+        backButton = new UIObjects.Button("Back Button", Config.Game.CENTER_X, Config.Game.CENTER_Y + 100, true);
+        stage.addChild(backButton);
+        rollButton = new UIObjects.Button("Roll Button", Config.Game.CENTER_X, Config.Game.CENTER_Y + 100, true);
+        stage.addChild(rollButton);
+        nextButton = new UIObjects.Button("Next Button", Config.Game.CENTER_X, Config.Game.CENTER_Y + 100, true);
+        stage.addChild(nextButton);
+        resetButton = new UIObjects.Button("Reset Button", Config.Game.CENTER_X, Config.Game.CENTER_Y + 100, true);
+        stage.addChild(resetButton);
+        startButton = new UIObjects.Button("Start Button", Config.Game.CENTER_X, Config.Game.CENTER_Y + 100, true);
+        stage.addChild(startButton);
+        startOverButton = new UIObjects.Button("Start Over Button", Config.Game.CENTER_X, Config.Game.CENTER_Y + 100, true);
+        stage.addChild(startOverButton);
+
+        //labels
+
+
+
+
+
+
+    }
+
+    function interfaceLogic():void
+    {
+        rollButton.on("click", ()=>{
+            console.log("roll button clicked");
         });
+    }
+
+    function Main():void
+    {
+        console.log(`%c Main Function`, "color: grey; font-size: 14px; font-weight: bold;");
+
+        buildInterface();
+        interfaceLogic();
     }
 
     window.addEventListener('load', Preload);

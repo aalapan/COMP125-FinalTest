@@ -55,15 +55,50 @@ let Game = (function () {
      * This is the main function of the Game (where all the fun happens)
      *
      */
-    function Main() {
-        console.log(`%c Main Function`, "color: grey; font-size: 14px; font-weight: bold;");
+
+    function buildInterface():void
+    {
+      
+        /*
         exampleLabel = new UIObjects.Label("An Example Label", "40px", "Consolas", "#000000", Config.Game.CENTER_X, Config.Game.CENTER_Y, true);
         stage.addChild(exampleLabel);
+
         exampleButton = new UIObjects.Button("button", Config.Game.CENTER_X, Config.Game.CENTER_Y + 100, true);
         stage.addChild(exampleButton);
-        exampleButton.on("click", () => {
-            console.log("example button clicked");
+        */
+
+        //buttons
+
+        backButton = new UIObjects.Button("Back Button", Config.Game.CENTER_X, Config.Game.CENTER_Y + 100, true);
+        stage.addChild(backButton);
+        rollButton = new UIObjects.Button("Roll Button", Config.Game.CENTER_X, Config.Game.CENTER_Y + 200, true);
+        stage.addChild(rollButton);
+        nextButton = new UIObjects.Button("Next Button", Config.Game.CENTER_X, Config.Game.CENTER_Y + 300, true);
+        stage.addChild(nextButton);
+        resetButton = new UIObjects.Button("Reset Button", Config.Game.CENTER_X, Config.Game.CENTER_Y + 400, true);
+        stage.addChild(resetButton);
+        startButton = new UIObjects.Button("Start Button", Config.Game.CENTER_X, Config.Game.CENTER_Y + 500, true);
+        stage.addChild(startButton);
+        startOverButton = new UIObjects.Button("Start Over Button", Config.Game.CENTER_X, Config.Game.CENTER_Y + 600, true);
+        stage.addChild(startOverButton);
+
+        //labels
+
+
+    }
+
+    function interfaceLogic():void
+    {
+        rollButton.on("click", ()=>{
+            console.log("roll button clicked");
         });
+    }
+
+
+    function Main() {
+        console.log(`%c Main Function`, "color: grey; font-size: 14px; font-weight: bold;");
+        buildInterface();
+        interfaceLogic();
     }
     window.addEventListener('load', Preload);
 })();
