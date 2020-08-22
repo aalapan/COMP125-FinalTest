@@ -19,13 +19,15 @@ let Game = (function(){
     let leftDice: Core.GameObject;
     let rightDice: Core.GameObject;
 
-    let diceOne = 0;
-    let diceTwo = 0;
-    let diceThree = 0;
-    let diceFour = 0;
-    let diceFive = 0;
-    let diceSix = 0;
+    let dieOne = 0;
+    let dieTwo = 0;
+    let dieThree = 0;
+    let dieFour = 0;
+    let dieFive = 0;
+    let dieSix = 0;
 
+    let diceSound = createjs.Sound;
+    let clickSound = createjs.Sound;
 
     let assetManifest= 
     [
@@ -44,7 +46,9 @@ let Game = (function(){
         {id:"resetButton", src:"./Assets/images/resetButton.png"},
         {id:"rollButton", src:"./Assets/images/rollButton.png"},
         {id:"startButton", src:"./Assets/images/startButton.png"},
-        {id:"startOverButton", src:"./Assets/images/startOverButton.png"}
+        {id:"startOverButton", src:"./Assets/images/startOverButton.png"},
+        {id:"diceSound", src:"./Assets/sounds/dice.wav"},
+        {id:"clickSound", src:"./Assets/sound/click.wav"}
     ];
 
     function Preload():void
@@ -97,27 +101,27 @@ let Game = (function(){
                 switch (outCome[roll]) {
                     case (outCome[roll],1,1):
                         diceRoll[roll] = "1",
-                        diceOne++;
+                        dieOne++;
                         break;
                     case (outCome[roll],2,2):
                         diceRoll[roll] = "2";
-                        diceTwo++;
+                        dieTwo++;
                         break;
                     case (outCome[roll],3,3):
                         diceRoll[roll] = "3";
-                        diceThree++;
+                        dieThree++;
                         break;
                     case (outCome[roll],4,4):
                         diceRoll[roll] = "4";
-                        diceFour++;
+                        dieFour++;
                         break;
                     case (outCome[roll],5,5):
                         diceRoll[roll] = "5";
-                        diceFive++
+                        dieFive++
                         break;
                     case (outCome[roll],6,6):
                         diceRoll[roll] = "6";
-                        diceSix++;
+                        dieSix++;
                         break;
                 }
             }
@@ -128,8 +132,6 @@ let Game = (function(){
     {
         diceBackground = new Core.GameObject("background", Config.Game.CENTER_X, Config.Game.CENTER_Y, true);
         stage.addChild(diceBackground);
-
-
 
         //buttons
         backButton = new UIObjects.Button("backButton", Config.Game.CENTER_X, Config.Game.CENTER_Y +200, true);
@@ -147,9 +149,9 @@ let Game = (function(){
 
         //labels
 
-        leftDiceLabel = new UIObjects.Label("leftDiceLabel", "16px", "Consolas", "#999999", Config.Game.CENTER_X -150, Config.Game.CENTER_Y + 60, true);
+        leftDiceLabel = new UIObjects.Label("Left Die", "16px", "Tahoma", "#999999", Config.Game.CENTER_X -150, Config.Game.CENTER_Y + 60, true);
         stage.addChild(leftDiceLabel);
-        rightDiceLabel = new UIObjects.Label("rightDiceLabel", "16px", "Consolas", "#999999", Config.Game.CENTER_X +150, Config.Game.CENTER_Y + 60, true);
+        rightDiceLabel = new UIObjects.Label("Right Die", "16px", "Tahoma", "#999999", Config.Game.CENTER_X +150, Config.Game.CENTER_Y + 60, true);
         stage.addChild(rightDiceLabel);
 
         //objects
@@ -165,6 +167,7 @@ let Game = (function(){
         rollButton.on("click", ()=>{
 
             let dice = rollDice();
+            diceSound.play();
 
             leftDice.image = assets.getResult(dice[0]) as HTMLImageElement;
             leftDiceLabel.setText(dice[0]);
@@ -173,23 +176,27 @@ let Game = (function(){
         });
 
         backButton.on("click", ()=>{
+            clickSound.play();
             console.log("backButton Button Clicked");
-            
         });
 
         nextButton.on("click", ()=>{
+            clickSound.play();
             console.log("nextButton Button Clicked");
         });
 
-        resetButton.on("click", ()=>{
+        resetButton.on("reset", ()=>{
+            clickSound.play();
             console.log("resetButton Button Clicked");
         });
 
         startButton.on("click", ()=>{
+            clickSound.play();
             console.log("startButton Button Clicked");
         });
 
         startOverButton.on("click", ()=>{
+            clickSound.play();
             console.log("startOverButton Button Clicked");
         });
     }
