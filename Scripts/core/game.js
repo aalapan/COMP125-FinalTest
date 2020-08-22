@@ -21,8 +21,8 @@ let Game = (function () {
     let dieFour = 0;
     let dieFive = 0;
     let dieSix = 0;
-    let diceSound = createjs.Sound;
-    let clickSound = createjs.Sound;
+    //  let diceSound = createjs.Sound;
+    //  let clickSound = createjs.Sound;
     let assetManifest = [
         { id: "1", src: "./Assets/images/1.png" },
         { id: "2", src: "./Assets/images/2.png" },
@@ -40,8 +40,6 @@ let Game = (function () {
         { id: "rollButton", src: "./Assets/images/rollButton.png" },
         { id: "startButton", src: "./Assets/images/startButton.png" },
         { id: "startOverButton", src: "./Assets/images/startOverButton.png" },
-        { id: "diceSound", src: "./Assets/sounds/dice.wav" },
-        { id: "clickSound", src: "./Assets/sound/click.wav" }
     ];
     function Preload() {
         console.log(`%c Preload Function`, "color: grey; font-size: 14px; font-weight: bold;");
@@ -136,33 +134,44 @@ let Game = (function () {
         rightDice = new Core.GameObject("blank", Config.Game.CENTER_X + 150, Config.Game.CENTER_Y - 50, true);
         stage.addChild(rightDice);
     }
+    function resetWindow() {
+        leftDice.image = assets.getResult("blank");
+        leftDiceLabel.setText("Left Die");
+        rightDice.image = assets.getResult("blank");
+        rightDiceLabel.setText("Right Die");
+    }
     function interfaceLogic() {
         rollButton.on("click", () => {
             let dice = rollDice();
-            diceSound.play();
+            // diceSound.play();
             leftDice.image = assets.getResult(dice[0]);
             leftDiceLabel.setText(dice[0]);
             rightDice.image = assets.getResult(dice[1]);
             rightDiceLabel.setText(dice[1]);
         });
         backButton.on("click", () => {
-            clickSound.play();
+            resetWindow();
+            // clickSound.play();
             console.log("backButton Button Clicked");
         });
         nextButton.on("click", () => {
-            clickSound.play();
+            resetWindow();
+            // clickSound.play();
             console.log("nextButton Button Clicked");
         });
-        resetButton.on("reset", () => {
-            clickSound.play();
+        resetButton.on("click", () => {
+            resetWindow();
+            // clickSound.play();
             console.log("resetButton Button Clicked");
         });
         startButton.on("click", () => {
-            clickSound.play();
+            resetWindow();
+            // clickSound.play();
             console.log("startButton Button Clicked");
         });
         startOverButton.on("click", () => {
-            clickSound.play();
+            resetWindow();
+            // clickSound.play();
             console.log("startOverButton Button Clicked");
         });
     }
